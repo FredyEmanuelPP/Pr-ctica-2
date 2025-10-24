@@ -49,3 +49,26 @@ class SensorTemperatura(DispositivoIoT):
         super().__init__(id_dispositivo)
         self.__temperatura = temp_inicial
         self.encender()
+@property
+    def temperatura(self) -> float:
+        return self.__temperatura
+
+    def leer_temperatura(self) -> float:
+        """Simula una lectura de sensor."""
+        self.__temperatura += random.uniform(-1.5, 1.5)
+        self._temperatura = max(10.0, min(40.0, self._temperatura))
+        # CORRECCIÓN: Añadido print para ver la lectura
+        print(f"  [Sensor {self.id_dispositivo}] lee: {self.temperatura:.2f}°C")
+        return self.__temperatura
+
+    def mostrar_datos(self):
+        """Sobrescribe método base (Polimorfismo)."""
+        super().mostrar_datos()
+        print(f"  Lectura: {self.temperatura:.2f}°C")
+
+
+class SensorHumedad(DispositivoIoT):
+    def _init_(self, id_dispositivo: str, humedad_inicial: float = 50.0):
+        super()._init_(id_dispositivo)
+        self.__humedad = humedad_inicial
+        self.encender()
